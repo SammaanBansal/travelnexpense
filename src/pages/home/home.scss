@@ -1,3 +1,21 @@
+body, p, li, div {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #4a4a4a;
+}
+
+ion-input{
+    border: none !important;
+}
+.btn-grey{
+    background: #4a4a4a;
+    color: #ffffff;
+}
 .page-title{
     text-align: center;
+}
+.container{
+    padding: 40px;
+}
+.bordered{
+    border: 1px solid #4a4a4a;
 }

@@ -7,6 +7,14 @@ import { Platform } from 'ionic-angular';
   templateUrl: 'home.html'
 })
 export class HomePage {
+  loginForm: {
+    ssoId: string,
+    Password: string
+  } = { 
+      ssoId: "",
+      Password: ""
+  } 
+  invalid : boolean = true;
 
   constructor(public navCtrl: NavController) {
 
