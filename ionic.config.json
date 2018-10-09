@@ -1,0 +1,8 @@
+{
+  "name": "travelandexpense",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "pro_id": "c6a86118"
+}
