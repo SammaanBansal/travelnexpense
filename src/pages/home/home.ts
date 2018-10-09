@@ -7,13 +7,9 @@ import { Platform } from 'ionic-angular';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  loginForm: {
-    ssoId: string,
-    Password: string
-  } = { 
-      ssoId: "",
-      Password: ""
-  } 
+  
+    ssoId: string;
+    Password: string;
   invalid : boolean = true;
 
   constructor(public navCtrl: NavController) {
