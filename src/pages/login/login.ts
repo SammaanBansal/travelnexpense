@@ -27,7 +27,7 @@ export class LoginPage {
   }
   signIn(){
     if(this.ssoId == "sam123" && this.Password === "asdfzxcv"){
-      this.navCtrl.push(HomePage);
+      this.navCtrl.setRoot(HomePage);
       //this.message = "Correct password";
     }
     else{
