@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { ClaimsTabComponent } from '../../components/claims-tab/claims-tab';
 import { HistoryTabComponent } from '../../components/history-tab/history-tab';
 
@@ -9,12 +9,12 @@ import { HistoryTabComponent } from '../../components/history-tab/history-tab';
 })
 export class HomePage {
  
-  tab1: any;
-  tab2: any;
+  claims: any;
+  history: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.tab1 = ClaimsTabComponent;
-    this.tab2 = HistoryTabComponent;
+    this.claims = ClaimsTabComponent;
+    this.history = HistoryTabComponent;
   }
 
   ionViewDidLoad() {

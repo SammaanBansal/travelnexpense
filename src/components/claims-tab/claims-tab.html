@@ -1,8 +1,36 @@
 <ion-content>
     <div class="container">
-        <h3>
-          Claims Tab
-        </h3>
-        <h4>Here you can request for expense claims.</h4>
+      <p>Please fill the form below to raise a request for claim.</p>
+      <form>
+          <ion-list>
+            <ion-item>
+              <ion-input type="text" placeholder="Expense Title" name="ExpTitle" [(ngModel)]="claimForm.ExpTitle" required #expTitle="ngModel"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input type="text" placeholder="Description" name="Description" [(ngModel)]="claimForm.Description" required #desc="ngModel"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label>Start Date</ion-label>
+              <ion-datetime displayFormat="MMM DD YYYY" name="startDate" [(ngModel)]="claimForm.startDate"></ion-datetime>
+            </ion-item>
+            <ion-item>
+              <ion-label>End Date</ion-label>
+              <ion-datetime displayFormat="MMM DD YYYY" name="endDate" [(ngModel)]="claimForm.endDate"></ion-datetime>
+            </ion-item>
+            <ion-item>
+              <ion-label>Category</ion-label>
+              <ion-select name="category" [(ngModel)]="claimForm.category">
+                <ion-option value="FOOD">Food</ion-option>
+                <ion-option value="TRAVEL">Travel</ion-option>
+                <ion-option value="ACCOMODATION">Accomodation</ion-option>
+                <ion-option value="OTHER">Other</ion-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-input type="number" placeholder="Total Amount" name="Amount" [(ngModel)]="claimForm.Amount" required #amount="ngModel"></ion-input>
+              </ion-item>    
+            <button ion-button color="grey" (click)="showConfirm();" block>Submit</button>
+          </ion-list>  
+      </form>
     </div>
   </ion-content>
