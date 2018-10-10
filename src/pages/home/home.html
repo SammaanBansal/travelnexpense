@@ -11,13 +11,12 @@
     <ion-list>
         <p>Please login through your SSO id</p>
       <ion-item>
-        <ion-input type="text" placeholder="Username"></ion-input>
+        <ion-input type="text" placeholder="SSO ID" minlength="6" [(ngModel)]="ssoId" required #ssoid="ngModel"></ion-input>
       </ion-item>
-    
       <ion-item>
         <ion-input type="password" placeholder="Password" minlength="8" [(ngModel)]="Password" required #password="ngModel" ></ion-input>
       </ion-item>
-      <button ion-button color="grey" [disabled]="password.invalid" block>Sign In</button>
+        <button ion-button color="grey" [disabled]="password.invalid" (click)="signIn();" block>Login</button>
     </ion-list>
   </div>
 </ion-content>
