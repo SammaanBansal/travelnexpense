@@ -3,6 +3,8 @@ import { IonicPage, NavController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { AlertController } from 'ionic-angular';
 
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
+
 /**
  * Generated class for the LoginPage page.
  *
@@ -22,9 +24,14 @@ export class LoginPage {
   invalid : boolean = true;
   message: string;
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
-
+  constructor(
+    public navCtrl: NavController, 
+    public alertCtrl: AlertController,
+    private authProvider: AuthenticationProvider
+  ) {
+    // this.signup();
   }
+
   signIn(){
     if(this.ssoId == "sam123" && this.Password === "asdfzxcv"){
       this.navCtrl.setRoot(HomePage);
@@ -33,6 +40,17 @@ export class LoginPage {
     else{
       this.showAlert("Invalid Credentials","Please enter correct sso id and password!");
     }
+  }
+
+  signup() {
+    let email = 'piyush@gmail.com',
+    pass = 'abcdefghi';
+    this.authProvider.register(email, pass)
+      .then((userData) => {
+        console.log("User registered successfully! ", userData);
+      }, (err) => {
+        console.log("User not registered! ", err);
+      });
   }
 
   showAlert(alertTitle,message) {
