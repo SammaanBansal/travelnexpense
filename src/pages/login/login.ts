@@ -29,21 +29,37 @@ export class LoginPage {
     public alertCtrl: AlertController,
     private authProvider: AuthenticationProvider
   ) {
-    // this.signup();
+    this.signup();
   }
 
   signIn(){
-    if(this.ssoId == "sam123" && this.Password === "asdfzxcv"){
-      this.navCtrl.setRoot(HomePage);
-      //this.message = "Correct password";
-    }
-    else{
-      this.showAlert("Invalid Credentials","Please enter correct sso id and password!");
-    }
+    let email = 'piyush@gmail.com',
+      pass = 'abcdefghi';
+      this.authProvider.signIn(email, pass)
+        .then((userData) => {
+          console.log("User logged in successfully!", userData);
+        }, (err) => {
+          console.log("User not logged in !", err);
+        })
+    // if(this.ssoId == "sam123" && this.Password === "asdfzxcv"){
+    //   let email = 'piyush@gmail.com',
+    //   pass = 'abcdefghi';
+    //   this.authProvider.signIn(email, pass)
+    //     .then((userData) => {
+    //       console.log("User logged in successfully!", userData);
+    //     }, (err) => {
+    //       console.log("User not logged in !", err);
+    //     })
+    //   // this.navCtrl.setRoot(HomePage);
+    //   //this.message = "Correct password";
+    // }
+    // else{
+    //   this.showAlert("Invalid Credentials","Please enter correct sso id and password!");
+    // }
   }
 
   signup() {
-    let email = 'piyush@gmail.com',
+    let email = 'piyush1@gmail.com',
     pass = 'abcdefghi';
     this.authProvider.register(email, pass)
       .then((userData) => {

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore'
 
+import { User } from '../../models/user.model';
 /*
   Generated class for the AuthenticationProvider provider.
 
@@ -10,8 +12,12 @@ import { AngularFireAuth } from '@angular/fire/auth';
 @Injectable()
 export class AuthenticationProvider {
 
-  	constructor(private afAuth: AngularFireAuth) {
+	usersCollection: AngularFirestoreCollection<User>;
+	userDoc: AngularFirestoreDocument<User>;
+
+  	constructor(private afAuth: AngularFireAuth, private db: AngularFirestore) {
     	console.log('Hello AuthenticationProvider Provider');
+    	this.usersCollection = db.collection('users');
   	}
 
   	/**
@@ -24,6 +30,11 @@ export class AuthenticationProvider {
 	  	return new Promise((resolve, reject) => {
 	  		this.afAuth.auth.createUserWithEmailAndPassword(email, password)
 	  			.then((userData) => {
+	  				let newUser: User = {
+	  					userId: userData.user.uid,
+	  					email: userData.user.email
+					}
+	  				this.usersCollection.add(newUser);
 	  				resolve(userData);
 	  			}, (err) =>{
 	  				reject(err);
