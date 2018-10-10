@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
-import { HomePage } from '../../pages/home/home';
+import { ClaimDetailsPage } from '../../pages/claim-details/claim-details';
 /**
  * Generated class for the ClaimsTabComponent component.
  *
@@ -33,7 +33,7 @@ export class ClaimsTabComponent {
   }
 
   submit(){
-    this.navCtrl.push(HomePage);
+    this.navCtrl.setRoot(ClaimDetailsPage);
   }
 
   showConfirm() {
