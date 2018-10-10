@@ -1,38 +1,24 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
-import { DashboardPage } from '../dashboard/dashboard';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ClaimsTabComponent } from '../../components/claims-tab/claims-tab';
+import { HistoryTabComponent } from '../../components/history-tab/history-tab';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  
-  ssoId: string;
-  Password: string;
-  invalid : boolean = true;
-  message: string;
+ 
+  tab1: any;
+  tab2: any;
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
-
-  }
-  signIn(){
-    if(this.ssoId == "sam123" && this.Password === "asdfzxcv"){
-      this.navCtrl.push(DashboardPage);
-      //this.message = "Correct password";
-    }
-    else{
-      this.showAlert("Invalid Credentials","Please enter correct sso id and password!");
-    }
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.tab1 = ClaimsTabComponent;
+    this.tab2 = HistoryTabComponent;
   }
 
-  showAlert(alertTitle,message) {
-    const alert = this.alertCtrl.create({
-     title: alertTitle,
-      subTitle: message,
-      buttons: ['OK']
-    });
-    alert.present();
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad DashboardPage');
   }
+
 }

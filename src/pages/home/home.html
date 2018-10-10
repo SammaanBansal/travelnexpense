@@ -1,22 +1,17 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      <p class="page-title">Travel And Expense</p>
-    </ion-title>
-  </ion-navbar>
-</ion-header>
 
-<ion-content padding>
-  <div class="container">
-    <ion-list>
-        <p>Please login through your SSO id</p>
-      <ion-item>
-        <ion-input type="text" placeholder="SSO ID" minlength="6" [(ngModel)]="ssoId" required #ssoid="ngModel"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input type="password" placeholder="Password" minlength="8" [(ngModel)]="Password" required #password="ngModel" ></ion-input>
-      </ion-item>
-        <button ion-button color="grey" [disabled]="password.invalid" (click)="signIn();" block>Login</button>
-    </ion-list>
-  </div>
-</ion-content>
+    <ion-navbar>
+      <ion-title>Dashboard</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  
+  <ion-content padding>
+    <div class="top-nav-bar">
+      <ion-tabs name="top-bar" tabsPlacement="top" tabsLayout="icon-start" tabsHighlight>
+        <ion-tab tabIcon="heart" tabTitle="Claims" [root]="tab1">Claims</ion-tab>
+        <ion-tab tabIcon="star" tabTitle="History" [root]="tab2">History</ion-tab>
+      </ion-tabs>
+    </div>
+  </ion-content>
+  
