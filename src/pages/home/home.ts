@@ -9,12 +9,12 @@ import { HistoryTabComponent } from '../../components/history-tab/history-tab';
 })
 export class HomePage {
  
-  tab1: any;
-  tab2: any;
+  Claims: any;
+  History: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.tab1 = ClaimsTabComponent;
-    this.tab2 = HistoryTabComponent;
+    this.Claims = ClaimsTabComponent;
+    this.History = HistoryTabComponent;
   }
 
   ionViewDidLoad() {

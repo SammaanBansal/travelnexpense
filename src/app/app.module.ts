@@ -7,6 +7,7 @@ import { MyApp } from './app.component';
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
+import { ClaimDetailsPage } from '../pages/claim-details/claim-details';
 
 import { ClaimsTabComponent } from '../components/claims-tab/claims-tab';
 import { HistoryTabComponent } from '../components/history-tab/history-tab';
@@ -18,7 +19,8 @@ import { HistoryTabComponent } from '../components/history-tab/history-tab';
     HomePage,
     LoginPage,
     ClaimsTabComponent,
-    HistoryTabComponent
+    HistoryTabComponent,
+    ClaimDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -30,7 +32,8 @@ import { HistoryTabComponent } from '../components/history-tab/history-tab';
     HomePage,
     LoginPage,
     ClaimsTabComponent,
-    HistoryTabComponent
+    HistoryTabComponent,
+    ClaimDetailsPage
   ],
   providers: [
     StatusBar,
