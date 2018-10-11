@@ -9,14 +9,14 @@
   <ion-content padding>
     <div class="login-container">
       <ion-list>
-          <p>Please login through your SSO id</p>
+          <p>Please login to access </p>
         <ion-item>
-          <ion-input type="text" placeholder="SSO ID" minlength="6" [(ngModel)]="ssoId" required #ssoid="ngModel"></ion-input>
+          <ion-input type="email" placeholder="Email" [(ngModel)]="loginForm.email" required #mail="ngModel"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input type="password" placeholder="Password" minlength="8" [(ngModel)]="Password" required #password="ngModel" ></ion-input>
+          <ion-input type="password" placeholder="Password" minlength="8" [(ngModel)]="loginForm.Password" required #password="ngModel" ></ion-input>
         </ion-item>
-          <button ion-button color="grey" [disabled]="password.invalid" (click)="signIn();" block>Login</button>
+          <button ion-button color="grey" [disabled]="password.invalid " (click)="signIn();" block>Login</button>
       </ion-list>
     </div>
   </ion-content>

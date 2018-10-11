@@ -18,7 +18,7 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad DashboardPage');
+    console.log('ionViewDidLoad Homepage');
   }
 
 }
