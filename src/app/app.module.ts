@@ -6,6 +6,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import { firebaseConfig } from '../config'; // Configuration of Google firebase 
 
@@ -20,7 +21,8 @@ import { ClaimDetailsPage } from '../pages/claim-details/claim-details';
 import { ClaimsTabComponent } from '../components/claims-tab/claims-tab';
 import { HistoryTabComponent } from '../components/history-tab/history-tab';
 
-import { AuthenticationProvider } from '../providers/authentication/authentication'; // Authentication Service Provider.
+import { AuthenticationProvider } from '../providers/authentication/authentication';
+import { ClaimProvider } from '../providers/claim/claim'; // Authentication Service Provider.
 
 
 @NgModule({
@@ -37,6 +39,7 @@ import { AuthenticationProvider } from '../providers/authentication/authenticati
     AngularFireModule.initializeApp(firebaseConfig.fire),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    AngularFireStorageModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -53,6 +56,7 @@ import { AuthenticationProvider } from '../providers/authentication/authenticati
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthenticationProvider,
+    ClaimProvider,
   ]
 })
 export class AppModule {}

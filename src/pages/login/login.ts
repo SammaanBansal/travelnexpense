@@ -33,11 +33,12 @@ export class LoginPage {
   }
 
   signIn(){
-    let email = 'piyush@gmail.com',
+    let email = 'piyush1@gmail.com',
       pass = 'abcdefghi';
       this.authProvider.signIn(email, pass)
         .then((userData) => {
           console.log("User logged in successfully!", userData);
+          this.navCtrl.setRoot(HomePage);
         }, (err) => {
           console.log("User not logged in !", err);
         })

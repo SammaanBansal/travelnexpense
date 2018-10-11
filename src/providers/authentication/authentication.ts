@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore'
 
@@ -34,7 +35,8 @@ export class AuthenticationProvider {
 	  					userId: userData.user.uid,
 	  					email: userData.user.email
 					}
-	  				this.usersCollection.add(newUser);
+					// Create a new document in users collection for new User
+	  				this.usersCollection.doc(userData.user.uid).set(newUser);
 	  				resolve(userData);
 	  			}, (err) =>{
 	  				reject(err);
@@ -54,7 +56,6 @@ export class AuthenticationProvider {
   				.then(userData => resolve(userData), err => reject(err));
   		});
   	}
-
 
   	/**
 		* Sign out current logged in user.
