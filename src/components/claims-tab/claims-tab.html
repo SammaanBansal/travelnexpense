@@ -11,15 +11,15 @@
             </ion-item>
             <ion-item>
               <ion-label>Start Date</ion-label>
-              <ion-datetime displayFormat="MMM DD YYYY" name="startDate" [(ngModel)]="claimForm.startDate"></ion-datetime>
+              <ion-datetime displayFormat="MMM DD YYYY" name="startDate" [(ngModel)]="claimForm.startDate" #strtdate="ngModel" required></ion-datetime>
             </ion-item>
             <ion-item>
               <ion-label>End Date</ion-label>
-              <ion-datetime displayFormat="MMM DD YYYY" name="endDate" [(ngModel)]="claimForm.endDate"></ion-datetime>
+              <ion-datetime displayFormat="MMM DD YYYY" name="endDate" [(ngModel)]="claimForm.endDate" #enddate="ngModel" required></ion-datetime>
             </ion-item>
             <ion-item>
               <ion-label>Category</ion-label>
-              <ion-select name="category" [(ngModel)]="claimForm.category">
+              <ion-select name="category" [(ngModel)]="claimForm.category" #category="ngModel" required>
                 <ion-option value="FOOD">Food</ion-option>
                 <ion-option value="TRAVEL">Travel</ion-option>
                 <ion-option value="ACCOMODATION">Accomodation</ion-option>
@@ -27,9 +27,18 @@
               </ion-select>
             </ion-item>
             <ion-item>
-                <ion-input type="number" placeholder="Total Amount" name="Amount" [(ngModel)]="claimForm.Amount" required #amount="ngModel"></ion-input>
-              </ion-item>    
-            <button ion-button color="grey" (click)="showConfirm();" block>Submit</button>
+              <ion-input type="number" placeholder="Total Amount" name="Amount" [(ngModel)]="claimForm.Amount" required #amount="ngModel"></ion-input>
+            </ion-item>   
+            <ion-item>
+                <ion-label >Upload expense reciepts</ion-label>
+                <!-- <ion-input type="file" name="pic" accept="image/*"> -->
+            </ion-item> 
+
+            <button ion-button color="grey" (click)="uploadImage();" block>Upload</button>
+            <div align="center">
+              <img *ngIf="photo" src="{{photo}}" alt="RECIEPT"/>
+            </div>
+            <button ion-button color="grey" [disabled]="expTitle.pristine || desc.pristine || strtdate.pristine || enddate.pristine && category.pristine && amount.pristine" (click)="showConfirm();" block>Submit</button>
           </ion-list>  
       </form>
     </div>

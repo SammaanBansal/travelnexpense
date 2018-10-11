@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { AlertController } from 'ionic-angular';
-
+import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 
 /**
@@ -19,47 +19,42 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 })
 export class LoginPage {
 
-  ssoId: string;
-  Password: string;
-  invalid : boolean = true;
-  message: string;
+  loginForm: {
+  email: string,
+  Password: string,
+  }={
+    email : '',
+    Password : '',
+  }
 
   constructor(
     public navCtrl: NavController, 
     public alertCtrl: AlertController,
     private authProvider: AuthenticationProvider
   ) {
-    this.signup();
+
   }
 
+  /**
+		* Sign in using email and password
+		* @param email		user's email
+		* @param password	user's password
+		* @return	on success, redirect to homepage
+  */
+    
   signIn(){
-    let email = 'piyush1@gmail.com',
-      pass = 'abcdefghi';
-      this.authProvider.signIn(email, pass)
+
+      this.authProvider.signIn(this.loginForm.email, this.loginForm.Password)
         .then((userData) => {
           console.log("User logged in successfully!", userData);
           this.navCtrl.setRoot(HomePage);
         }, (err) => {
           console.log("User not logged in !", err);
         })
-    // if(this.ssoId == "sam123" && this.Password === "asdfzxcv"){
-    //   let email = 'piyush@gmail.com',
-    //   pass = 'abcdefghi';
-    //   this.authProvider.signIn(email, pass)
-    //     .then((userData) => {
-    //       console.log("User logged in successfully!", userData);
-    //     }, (err) => {
-    //       console.log("User not logged in !", err);
-    //     })
-    //   // this.navCtrl.setRoot(HomePage);
-    //   //this.message = "Correct password";
-    // }
-    // else{
-    //   this.showAlert("Invalid Credentials","Please enter correct sso id and password!");
-    // }
+    
   }
 
-  signup() {
+ /*  signup() {
     let email = 'piyush1@gmail.com',
     pass = 'abcdefghi';
     this.authProvider.register(email, pass)
@@ -68,7 +63,14 @@ export class LoginPage {
       }, (err) => {
         console.log("User not registered! ", err);
       });
-  }
+  } */
+
+  /**
+		* Sign in using email and password
+		* @param alertTitle		title of alert
+		* @param message	message of alert
+		* @return same page on button click
+  */
 
   showAlert(alertTitle,message) {
     const alert = this.alertCtrl.create({

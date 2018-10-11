@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-
+import { Observable } from 'rxjs/Observable';
+import { Camera } from '@ionic-native/camera';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -13,6 +14,10 @@ import { firebaseConfig } from '../config'; // Configuration of Google firebase
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
+
+/*
+  Application pages and components imports
+*/
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
@@ -53,7 +58,7 @@ import { ClaimProvider } from '../providers/claim/claim'; // Authentication Serv
   ],
   providers: [
     StatusBar,
-    SplashScreen,
+    SplashScreen, Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthenticationProvider,
     ClaimProvider,
