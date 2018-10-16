@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { NavController, AlertController  } from 'ionic-angular';
 import { ClaimDetailsPage } from '../../pages/claim-details/claim-details';
 import { LoginPage } from '../../pages/login/login';
-import { Camera } from '@ionic-native/camera';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 // import { File } from '@ionic-native/file';
 import { Observable } from 'rxjs/Observable';
+
+import * as crypto from 'crypto';
 /**
  * Generated class for the ClaimsTabComponent component.
  *
@@ -32,9 +34,14 @@ export class ClaimsTabComponent {
     Amount : 0
   }
 
-  photo : any;
+  photo : any = 0;
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, private camera: Camera) {
+  reciepts: { name: string, imageData: any }[] = [];
+  lenReciepts = this.reciepts.length;
+  
+
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, private camera: Camera, private CameraOptions: CameraOptions) {
+    console.log(this.lenReciepts);
   }
 
 
@@ -44,9 +51,30 @@ export class ClaimsTabComponent {
     * @param options	options constant for native camera
   */
 
+  clickImage() {
+    const options: CameraOptions = {
+      quality: 70,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    this.camera.getPicture(options).then((imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+     // If it's base64 (DATA_URL):
+     let newImageObj = {
+       name: '/receipts/' + crypto.randomBytes(20).toString('hex'),
+       imageData: 'data:image/jpeg;base64,' + imageData
+     }
+    //  this.photo = 'data:image/jpeg;base64,' + imageData;
+     this.reciepts.push(newImageObj);
+    }, (err) => {
+     // Handle error
+    });
+  }
   uploadImage() {
     const options: CameraOptions = {
       quality: 70,
+      sourceType: 2,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE
@@ -56,18 +84,21 @@ export class ClaimsTabComponent {
     * @param imagedata image in base64 encode
     * @param options	options for camera picture
   */
-
     this.camera.getPicture(options).then((imageData) => {
      // imageData is either a base64 encoded string or a file URI
      // If it's base64 (DATA_URL):
-     console.log(imageData);
-     this.photo = 'data:image/jpeg;base64,' + imageData;
+     let newImageObj = {
+      name: '/receipts/' + crypto.randomBytes(20).toString('hex'),
+      imageData: 'data:image/jpeg;base64,' + imageData
+    }
+   //  this.photo = 'data:image/jpeg;base64,' + imageData;
+    this.reciepts.push(newImageObj);
     }, (err) => {
      // Handle error
     });
   }
   
-
+  
 
 
 

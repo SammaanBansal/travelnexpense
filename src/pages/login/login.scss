@@ -2,13 +2,19 @@ body, p, li, div {
     font-family: Arial, Helvetica, sans-serif;
     color: #4a4a4a;
 }
-
+button{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 ion-input{
     border: none !important;
 }
 .btn-grey{
     background: #4a4a4a;
     color: #ffffff;
+}
+ion-icon{
+    margin-right: 15px;
 }
 .page-title{
     text-align: center;

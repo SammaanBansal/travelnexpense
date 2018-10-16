@@ -34,10 +34,14 @@
                 <!-- <ion-input type="file" name="pic" accept="image/*"> -->
             </ion-item> 
 
-            <button ion-button color="grey" (click)="uploadImage();" block>Upload</button>
-            <div align="center">
-              <img *ngIf="photo" src="{{photo}}" alt="RECIEPT"/>
+            <button ion-button class="cta" color="grey" (click)="clickImage();" block>Click</button>
+            <button ion-button class="cta" color="grey" (click)="uploadImage();" block>Upload</button>
+
+            <div align="center" *ngFor="let reciept of reciepts">
+              {{reciept.name}}
+              <img src="{{reciept.imageData}}" alt="RECIEPT"/>
             </div>
+            
             <button ion-button color="grey" [disabled]="expTitle.pristine || desc.pristine || strtdate.pristine || enddate.pristine && category.pristine && amount.pristine" (click)="showConfirm();" block>Submit</button>
           </ion-list>  
       </form>

@@ -1,3 +1,9 @@
 .container{
     padding: 20px;
 }
+.cta{
+    margin: 10px auto;
+    &:hover{
+        color: red;
+    }
+}
