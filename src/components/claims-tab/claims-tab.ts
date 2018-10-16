@@ -101,23 +101,21 @@ export class ClaimsTabComponent {
   
 
 
-
-/**
-  * redirect to claim details page
-  * @param url redirect page name
-*/
+  /**
+    * redirect to claim details page
+    * @param url redirect page name
+  */
   submit(){
     this.navCtrl.setRoot(ClaimDetailsPage);
   }
 
-/**
-  * Show confirm alert box
-  * @param title		user's email
-  * @param message	user's password
-  * @return	on success, call submit function
-  * @return	on cancel, load same page
-*/
-
+  /**
+    * Show confirm alert box
+    * @param title		user's email
+    * @param message	user's password
+    * @return	on success, call submit function
+    * @return	on cancel, load same page
+  */
   showConfirm() {
     const confirm = this.alertCtrl.create({
       title: 'Confirm Submit',
