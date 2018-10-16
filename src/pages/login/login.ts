@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { 
+  IonicPage, 
+  NavController, 
+  LoadingController, 
+  ToastController 
+} from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { AlertController } from 'ionic-angular';
-import {Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
-
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -20,64 +18,69 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 export class LoginPage {
 
   loginForm: {
-  email: string,
-  Password: string,
-  }={
+    email: string,
+    Password: string,
+  } = {
     email : '',
-    Password : '',
+    Password : ''
   }
 
   constructor(
     public navCtrl: NavController, 
     public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
     private authProvider: AuthenticationProvider
-  ) {
-
-  }
+  ) {}
 
   /**
 		* Sign in using email and password
-		* @param email		user's email
-		* @param password	user's password
-		* @return	on success, redirect to homepage
   */
-    
   signIn(){
-
-      this.authProvider.signIn(this.loginForm.email, this.loginForm.Password)
-        .then((userData) => {
-          console.log("User logged in successfully!", userData);
-          this.navCtrl.setRoot(HomePage);
-        }, (err) => {
-          console.log("User not logged in !", err);
-        })
-    
+    let loading = this.loadingCtrl.create({spinner: 'crescent', showBackdrop: true, content: 'Please wait...'});
+    loading.present();
+    this.authProvider.signIn(this.loginForm.email, this.loginForm.Password)
+      .then((userData) => {
+        loading.dismiss();
+        this.navCtrl.setRoot(HomePage);
+        this.showToast('Logged in successfully!');
+      }, (error) => {
+        loading.dismiss();
+        if (error.code == 'auth/invalid-email') this.showToast('Email address is not valid.');
+        else if (error.code == 'auth/user-disabled') this.showToast('Your account has been disabled.');
+        else if (error.code == 'auth/user-not-found') this.showToast('User not found.');
+        else if (error.code == 'auth/wrong-password') this.showToast('Invalid password.');
+      });
   }
 
- /*  signup() {
-    let email = 'piyush1@gmail.com',
-    pass = 'abcdefghi';
-    this.authProvider.register(email, pass)
-      .then((userData) => {
-        console.log("User registered successfully! ", userData);
-      }, (err) => {
-        console.log("User not registered! ", err);
-      });
-  } */
-
   /**
-		* Sign in using email and password
-		* @param alertTitle		title of alert
-		* @param message	message of alert
-		* @return same page on button click
+		* Show alert message
+		* @param alertTitle		Title of alert
+		* @param message      Message of alert
+		* @return             Instance of created alert
   */
-
-  showAlert(alertTitle,message) {
+  showAlert(alertTitle, message) {
     const alert = this.alertCtrl.create({
      title: alertTitle,
       subTitle: message,
       buttons: ['OK']
     });
     alert.present();
+    return alert;
+  }
+
+  /**
+    * Show toast message
+    * @param message      Message of toast
+    * @return             Instance of created toast
+  */
+  showToast(message: string) {
+    const toast = this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
+    return toast;
   }
 }

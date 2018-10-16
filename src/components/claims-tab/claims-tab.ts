@@ -2,15 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, AlertController  } from 'ionic-angular';
 import { ClaimDetailsPage } from '../../pages/claim-details/claim-details';
 import { LoginPage } from '../../pages/login/login';
-import { Camera } from '@ionic-native/camera';
-// import { File } from '@ionic-native/file';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Observable } from 'rxjs/Observable';
-/**
- * Generated class for the ClaimsTabComponent component.
- *
- * See https://angular.io/api/core/Component for more info on Angular
- * Components.
- */
+
 @Component({
   selector: 'claims-tab',
   templateUrl: 'claims-tab.html'
@@ -60,33 +54,28 @@ export class ClaimsTabComponent {
     this.camera.getPicture(options).then((imageData) => {
      // imageData is either a base64 encoded string or a file URI
      // If it's base64 (DATA_URL):
-     console.log(imageData);
+     console.log(new Blob(imageData, {type: 'base64'}));
      this.photo = 'data:image/jpeg;base64,' + imageData;
     }, (err) => {
      // Handle error
     });
   }
-  
 
-
-
-
-/**
-  * redirect to claim details page
-  * @param url redirect page name
-*/
+  /**
+    * redirect to claim details page
+    * @param url redirect page name
+  */
   submit(){
     this.navCtrl.setRoot(ClaimDetailsPage);
   }
 
-/**
-  * Show confirm alert box
-  * @param title		user's email
-  * @param message	user's password
-  * @return	on success, call submit function
-  * @return	on cancel, load same page
-*/
-
+  /**
+    * Show confirm alert box
+    * @param title		user's email
+    * @param message	user's password
+    * @return	on success, call submit function
+    * @return	on cancel, load same page
+  */
   showConfirm() {
     const confirm = this.alertCtrl.create({
       title: 'Confirm Submit',
