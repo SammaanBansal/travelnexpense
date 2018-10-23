@@ -29,17 +29,14 @@
             <ion-item>
               <ion-input type="number" placeholder="Total Amount" name="Amount" [(ngModel)]="claimForm.Amount" required #amount="ngModel"></ion-input>
             </ion-item>   
-            <ion-item>
-                <ion-label >Upload expense reciepts</ion-label>
-                <!-- <ion-input type="file" name="pic" accept="image/*"> -->
-            </ion-item> 
 
             <button ion-button class="cta" color="grey" (click)="clickImage();" block>Click</button>
             <button ion-button class="cta" color="grey" (click)="uploadImage();" block>Upload</button>
-
-            <div align="center" *ngFor="let reciept of reciepts">
-              {{reciept.name}}
-              <img src="{{reciept.imageData}}" alt="RECIEPT"/>
+            
+            <p text-center><strong>Uploading: %{{uploadPercent | async}}</strong></p>
+            <div class="reciept-images" align="center" *ngFor="let reciept of reciepts;let i=index">
+              <p>{{Reciept}} &nbsp; {{i}}</p>
+              <img src= "{{downloadURL}}"/>  
             </div>
             
             <button ion-button color="grey" [disabled]="expTitle.pristine || desc.pristine || strtdate.pristine || enddate.pristine && category.pristine && amount.pristine" (click)="showConfirm();" block>Submit</button>

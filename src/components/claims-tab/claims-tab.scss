@@ -4,6 +4,15 @@
 .cta{
     margin: 10px auto;
     &:hover{
-        color: red;
+        background: grey;
+        color: black;
     }
+}
+.reciept-images{
+        width: 47%;
+        height: auto;
+        float: left;
+        &:nth-child(2n){
+            margin-right: 15px;
+        }
 }

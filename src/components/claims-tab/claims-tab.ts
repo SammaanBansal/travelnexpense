@@ -5,8 +5,9 @@ import { LoginPage } from '../../pages/login/login';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 // import { File } from '@ionic-native/file';
 import { Observable } from 'rxjs/Observable';
-
-import * as crypto from 'crypto';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { finalize } from 'rxjs/operators';
+//import * as crypto from 'crypto';
 /**
  * Generated class for the ClaimsTabComponent component.
  *
@@ -36,19 +37,24 @@ export class ClaimsTabComponent {
 
   photo : any = 0;
 
-  reciepts: { name: string, imageData: any }[] = [];
+  reciepts: { name: string, imageData: any, downloadUrl?:string }[] = [];
   lenReciepts = this.reciepts.length;
   
+  uploadPercent: Observable<number>;
+  downloadURL: Observable<string>;
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, private camera: Camera, private CameraOptions: CameraOptions) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, private camera: Camera, private storage: AngularFireStorage) {
     console.log(this.lenReciepts);
   }
-
+  
+  generateRandom(){
+    let imageName = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    return imageName;
+  }
 
   /**
     * Function to activate native camera
-    * @param photo	store converted image
-    * @param options	options constant for native camera
+    
   */
 
   clickImage() {
@@ -59,18 +65,53 @@ export class ClaimsTabComponent {
       mediaType: this.camera.MediaType.PICTURE
     }
     this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     let newImageObj = {
-       name: '/receipts/' + crypto.randomBytes(20).toString('hex'),
-       imageData: 'data:image/jpeg;base64,' + imageData
-     }
-    //  this.photo = 'data:image/jpeg;base64,' + imageData;
-     this.reciepts.push(newImageObj);
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      let newImageObj = {
+        name: this.generateRandom(),
+        imageData: 'data:image/jpeg;base64,' + imageData,
+      }
+      this.reciepts.push(newImageObj);
+      this.uploadFile(newImageObj);
     }, (err) => {
-     // Handle error
+        // Handle error
     });
   }
+  
+
+  uploadFile(image) {
+    const filePath = image.name;
+    const fileRef = this.storage.ref(filePath);
+    const task = fileRef.putString(image.imageData, 'data_url');
+    console.log('filePath', JSON.stringify(filePath))
+    console.log('fileRef', JSON.stringify(fileRef));
+    console.log('task', task);
+    // observe percentage changes
+
+    // task.then((res) => {
+    //   console.log("Resposne :", res);
+    // }, (err) => {
+    //   console.log("Error:", JSON.stringify(err));
+    // })
+     this.uploadPercent = task.percentageChanges();
+    // get notified when the download URL is available
+     task.snapshotChanges().pipe(
+       finalize(() => {fileRef.getDownloadURL().subscribe((res) => {
+        this.downloadURL =  res;
+
+       }, (err) => {
+         
+       }) })
+     )
+     .subscribe((res) => {
+       console.log("RESPONSE FROM UPLOAD: ", res);
+     }, (err) => {
+       console.log("ERROR from upload: ", err);
+     })
+    //  console.log('downloadURL', fileRef.getDownloadURL());
+  }
+
+
   uploadImage() {
     const options: CameraOptions = {
       quality: 70,
@@ -79,43 +120,35 @@ export class ClaimsTabComponent {
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE
     }
-    /**
-    * Function to click picture using camera
-    * @param imagedata image in base64 encode
-    * @param options	options for camera picture
-  */
     this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     let newImageObj = {
-      name: '/receipts/' + crypto.randomBytes(20).toString('hex'),
-      imageData: 'data:image/jpeg;base64,' + imageData
-    }
-   //  this.photo = 'data:image/jpeg;base64,' + imageData;
-    this.reciepts.push(newImageObj);
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      let newImageObj = {
+        name: this.generateRandom(),
+        imageData: 'data:image/jpeg;base64,' + imageData,
+      }
+      this.reciepts.push(newImageObj);
+      this.uploadFile(newImageObj);
     }, (err) => {
-     // Handle error
+        // Handle error
     });
   }
-  
-  
 
-
-  /**
-    * redirect to claim details page
-    * @param url redirect page name
-  */
+/**
+  * redirect to claim details page
+*/
   submit(){
     this.navCtrl.setRoot(ClaimDetailsPage);
   }
 
-  /**
-    * Show confirm alert box
-    * @param title		user's email
-    * @param message	user's password
-    * @return	on success, call submit function
-    * @return	on cancel, load same page
-  */
+/**
+  * Show confirm alert box
+  * @param title		user's email
+  * @param message	user's password
+  * @return	on success, call submit function
+  * @return	on cancel, load same page
+*/
+
   showConfirm() {
     const confirm = this.alertCtrl.create({
       title: 'Confirm Submit',
