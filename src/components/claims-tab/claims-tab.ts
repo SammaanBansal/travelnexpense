@@ -42,6 +42,7 @@ export class ClaimsTabComponent {
   
   uploadPercent: Observable<number>;
   downloadURL: Observable<string>;
+  
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, private camera: Camera, private storage: AngularFireStorage) {
     console.log(this.lenReciepts);
@@ -57,9 +58,10 @@ export class ClaimsTabComponent {
     
   */
 
-  clickImage() {
+  clickImage(isGallerySelect: boolean) {
     const options: CameraOptions = {
       quality: 70,
+      sourceType: isGallerySelect ? 2 : 0,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE
@@ -78,27 +80,17 @@ export class ClaimsTabComponent {
     });
   }
   
-
   uploadFile(image) {
     const filePath = image.name;
     const fileRef = this.storage.ref(filePath);
     const task = fileRef.putString(image.imageData, 'data_url');
-    console.log('filePath', JSON.stringify(filePath))
-    console.log('fileRef', JSON.stringify(fileRef));
-    console.log('task', task);
-    // observe percentage changes
-
-    // task.then((res) => {
-    //   console.log("Resposne :", res);
-    // }, (err) => {
-    //   console.log("Error:", JSON.stringify(err));
-    // })
-     this.uploadPercent = task.percentageChanges();
+    
+    this.uploadPercent = task.percentageChanges();
     // get notified when the download URL is available
+
      task.snapshotChanges().pipe(
        finalize(() => {fileRef.getDownloadURL().subscribe((res) => {
         this.downloadURL =  res;
-
        }, (err) => {
          
        }) })
@@ -108,30 +100,7 @@ export class ClaimsTabComponent {
      }, (err) => {
        console.log("ERROR from upload: ", err);
      })
-    //  console.log('downloadURL', fileRef.getDownloadURL());
-  }
-
-
-  uploadImage() {
-    const options: CameraOptions = {
-      quality: 70,
-      sourceType: 2,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
-    this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64 (DATA_URL):
-      let newImageObj = {
-        name: this.generateRandom(),
-        imageData: 'data:image/jpeg;base64,' + imageData,
-      }
-      this.reciepts.push(newImageObj);
-      this.uploadFile(newImageObj);
-    }, (err) => {
-        // Handle error
-    });
+    
   }
 
 /**
