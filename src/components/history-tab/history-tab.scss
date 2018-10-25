@@ -16,8 +16,14 @@
     &:first-child{
         border-top: 0;
     }
+
     .fullwidth p{
         display: inline-block;
+    }
+    @media screen and (max-width: 400px){
+        .no-float-400{
+            float: none !important;
+        }
     }
 
 }

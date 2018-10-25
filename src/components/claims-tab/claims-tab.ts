@@ -122,7 +122,7 @@ export class ClaimsTabComponent {
     this.navCtrl.push(ClaimDetailsPage, {
       category: this.claimForm.category,
       title: this.claimForm.expTitle,
-      desc: this.claimForm.description, 
+      desc: this.claimForm.description,
       start: this.claimForm.startDate, 
       end: this.claimForm.endDate, 
       amount: this.claimForm.amount 

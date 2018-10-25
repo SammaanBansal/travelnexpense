@@ -36,7 +36,7 @@ export class ClaimDetailsPage {
 
     this.claimDetails.category = this.navParams.get('category');
     this.claimDetails.expTitle = this.navParams.get('title');
-    this.claimDetails.startDate = this.navParams.get('start');
+    this.claimDetails.description = this.navParams.get('desc');
     this.claimDetails.endDate = this.navParams.get('end');
     this.claimDetails.description = this.navParams.get('desc');
     this.claimDetails.amount = this.navParams.get('amount');
