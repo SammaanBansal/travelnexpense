@@ -4,10 +4,10 @@
       <form>
           <ion-list>
             <ion-item>
-              <ion-input class="font14" type="text" placeholder="Expense Title" name="ExpTitle" [(ngModel)]="claimForm.ExpTitle" required #expTitle="ngModel"></ion-input>
+              <ion-input class="font14" type="text" placeholder="Expense Title" name="ExpTitle" [(ngModel)]="claimForm.expTitle" required #expTitle="ngModel"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input class="font14" type="text" placeholder="Description" name="Description" [(ngModel)]="claimForm.Description" required #desc="ngModel"></ion-input>
+              <ion-input class="font14" type="text" placeholder="Description" name="Description" [(ngModel)]="claimForm.description" required #desc="ngModel"></ion-input>
             </ion-item>
             <ion-item>
               <ion-label class="font14">Start Date</ion-label>
@@ -27,19 +27,25 @@
               </ion-select>
             </ion-item>
             <ion-item>
-              <ion-input class="font14" type="number" placeholder="Total Amount" name="Amount" [(ngModel)]="claimForm.Amount" required #amount="ngModel"></ion-input>
+              <ion-input class="font14" type="number" placeholder="Total Amount" name="Amount" [(ngModel)]="claimForm.amount" required #amount="ngModel"></ion-input>
             </ion-item>   
 
             <button ion-button color="light" class="cta" (click)="clickImage();" block>Click New </button>
             <button ion-button color="light" class="cta" (click)="clickImage(true);" block>Upload from Gallery</button>
-            
             <p text-center class="font12" *ngIf="downloadURL" ><strong>Uploading: {{uploadPercent | async}}%</strong></p>
             <div class="reciept-images" align="center" *ngFor="let reciept of reciepts;let i=index">
-              <p>{{Reciept}} &nbsp; {{i}}</p>
-              <img src= "{{downloadURL}}"/>  
+              <p>{{reciept.name}}</p>
+              <ion-list>
+                <ion-item>
+                  <ion-thumbnail item-start>
+                    <img class="reciept-thumb" src= "{{reciept.downloadURL}}" (click)="viewImg(reciept.downloadURL, reciept.name)"/>
+                  </ion-thumbnail>
+                </ion-item>
+              </ion-list>
+              <!-- <img class="reciept-thumb" src= "{{reciept.downloadURL}}"/>   -->
             </div>
             
-            <button ion-button [disabled]="expTitle.pristine || desc.pristine || strtdate.pristine || enddate.pristine && category.pristine && amount.pristine" (click)="showConfirm();" block>Submit</button>
+            <button ion-button [disabled]="expTitle.pristine || desc.pristine || strtdate.pristine || enddate.pristine && category.pristine && amount.pristine" (click)="review();" block>Submit</button>
           </ion-list>  
       </form>
     </div>

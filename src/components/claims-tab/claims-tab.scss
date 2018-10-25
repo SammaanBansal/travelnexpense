@@ -13,10 +13,12 @@ ion-input{
     font-size: 14px;
 }
 .reciept-images{
-        width: 47%;
-        height: auto;
-        float: left;
-        &:nth-child(2n){
-            margin-right: 15px;
-        }
+    margin: 0 10px 0 0;
+    width: 45%;
+    float: left;
+    transition: width linear 0.4s;
+    &:nth-child(2n-1){
+        margin-right: 15px;
+    }
+    
 }

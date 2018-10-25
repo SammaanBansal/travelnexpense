@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController  } from 'ionic-angular';
+import { NavController, AlertController, NavParams  } from 'ionic-angular';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { PhotoViewer } from '@ionic-native/photo-viewer'
+// Page imports
 import { ClaimDetailsPage } from '../../pages/claim-details/claim-details';
 import { LoginPage } from '../../pages/login/login';
-import { Camera, CameraOptions } from '@ionic-native/camera';
-// import { File } from '@ionic-native/file';
+// other imports
 import { Observable } from 'rxjs/Observable';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
-//import * as crypto from 'crypto';
+
 /**
  * Generated class for the ClaimsTabComponent component.
  *
@@ -20,23 +22,23 @@ import { finalize } from 'rxjs/operators';
 })
 export class ClaimsTabComponent {
   claimForm: {
-    ExpTitle: string,
-    Description: string,
+    expTitle: string,
+    description: string,
     startDate: Date,
     endDate: Date,
     category: string,
-    Amount: number
+    amount: number
   } = {
-    ExpTitle :'',
-    Description : '',
+    expTitle :'',
+    description : '',
     startDate : new Date() ,
     endDate : new Date(),
     category :'',
-    Amount : 0
+    amount : null
   }
 
   photo : any = 0;
-
+  recNum: number = 1;
   reciepts: { name: string, imageData: any, downloadUrl?:string }[] = [];
   lenReciepts = this.reciepts.length;
   
@@ -44,8 +46,7 @@ export class ClaimsTabComponent {
   downloadURL: Observable<string>;
   
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, private camera: Camera, private storage: AngularFireStorage) {
-    console.log(this.lenReciepts);
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public navParams: NavParams, private camera: Camera, private storage: AngularFireStorage, private photoViewer: PhotoViewer) {
   }
   
   generateRandom(){
@@ -61,7 +62,7 @@ export class ClaimsTabComponent {
   clickImage(isGallerySelect: boolean) {
     const options: CameraOptions = {
       quality: 70,
-      sourceType: isGallerySelect ? 2 : 0,
+      sourceType: isGallerySelect ? 2 : 1,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE
@@ -69,11 +70,12 @@ export class ClaimsTabComponent {
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
+      
       let newImageObj = {
-        name: this.generateRandom(),
+        name: this.claimForm.expTitle + '-reciept-' + this.recNum ,
         imageData: 'data:image/jpeg;base64,' + imageData,
       }
-      this.reciepts.push(newImageObj);
+      this.recNum++;
       this.uploadFile(newImageObj);
     }, (err) => {
         // Handle error
@@ -90,7 +92,8 @@ export class ClaimsTabComponent {
 
      task.snapshotChanges().pipe(
        finalize(() => {fileRef.getDownloadURL().subscribe((res) => {
-        this.downloadURL =  res;
+        image.downloadURL = res;
+        this.reciepts.push(image);
        }, (err) => {
          
        }) })
@@ -103,40 +106,26 @@ export class ClaimsTabComponent {
     
   }
 
-/**
-  * redirect to claim details page
-*/
-  submit(){
-    this.navCtrl.setRoot(ClaimDetailsPage);
+
+  viewImg(imageUrl,imageName){
+    console.log('url', imageUrl);
+    console.log('name', imageName);
+    this.photoViewer.show(imageUrl, imageName, {share: false});
   }
 
+
 /**
-  * Show confirm alert box
-  * @param title		user's email
-  * @param message	user's password
-  * @return	on success, call submit function
-  * @return	on cancel, load same page
+  * redirect to claim review
 */
 
-  showConfirm() {
-    const confirm = this.alertCtrl.create({
-      title: 'Confirm Submit',
-      message: 'Are you sure you want to submit?',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: () => {
-            console.log('Disagree clicked');
-          }
-        },
-        {
-          text: 'Submit',
-          handler: () => {
-            this.submit();
-          }
-        }
-      ]
+  review() {
+    this.navCtrl.push(ClaimDetailsPage, {
+      category: this.claimForm.category,
+      title: this.claimForm.expTitle,
+      desc: this.claimForm.description, 
+      start: this.claimForm.startDate, 
+      end: this.claimForm.endDate, 
+      amount: this.claimForm.amount 
     });
-    confirm.present();
   }
 }

@@ -13,7 +13,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Camera } from '@ionic-native/camera';
-
+import { PhotoViewer } from '@ionic-native/photo-viewer'
 import { MyApp } from './app.component';
 
 // Page Imports
@@ -58,7 +58,7 @@ import { ClaimProvider } from '../providers/claim/claim'; // Authentication Serv
   ],
   providers: [
     StatusBar,
-    SplashScreen, Camera,
+    SplashScreen, Camera, PhotoViewer,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthenticationProvider,
     ClaimProvider,

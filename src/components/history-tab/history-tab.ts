@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+import { ClaimDetailsPage } from '../../pages/claim-details/claim-details';
 
 /**
  * Generated class for the HistoryTabComponent component.
@@ -12,11 +14,11 @@ import { Component } from '@angular/core';
 })
 export class HistoryTabComponent {
 
-  text: string;
-
-  constructor() {
-    console.log('Hello HistoryTabComponent Component');
-    this.text = 'Hello World';
+  constructor(private navCtrl: NavController) {
+    
+  }
+  viewDetails(){
+    this.navCtrl.push(ClaimDetailsPage);
   }
 
 }
