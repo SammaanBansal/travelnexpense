@@ -67,7 +67,7 @@ showConfirm() {
       {
         text: 'Submit',
         handler: () => {
-          this.navCtrl.setRoot(HomePage);
+          this.navCtrl.parent.select(2);
         }
       }
     ]
